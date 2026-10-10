@@ -1,0 +1,3 @@
+Based on sddm-astronaut-theme by Keyitdev (GPL-3.0-or-later).
+Modified: pixel_sakura config with a custom video background (BABU.mp4, no audio).
+Original repository: https://github.com/Keyitdev/sddm-astronaut-theme

@@ -1,0 +1,14 @@
+[SddmGreeterTheme]
+Name=sddm-babu-theme
+Description=sddm-babu-theme (pixel_sakura layout, custom video)
+Author=keyitdev
+Website=https://github.com/Keyitdev/sddm-astronaut-theme
+License=GPL-3.0-or-later
+Type=sddm-theme
+Version=1.4
+ConfigFile=Themes/babu.conf
+MainScript=Main.qml
+TranslationsDirectory=translations
+Theme-Id=sddm-babu-theme
+Theme-API=2.0
+QtVersion=6

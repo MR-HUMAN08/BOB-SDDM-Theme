@@ -265,8 +265,8 @@ Column {
             background: Rectangle {
                 color: config.LoginFieldBackgroundColor
                 opacity: 1
-                border.color: "transparent"
-                border.width: parent.activeFocus ? 2 : 1
+                border.color: "black"
+                border.width: 2
                 radius: config.RoundCorners || 0
             }
 
@@ -279,7 +279,7 @@ Column {
                     when: username.activeFocus
                     PropertyChanges {
                         target: username.background
-                        border.color: config.HighlightBorderColor
+                        border.color: "black"
                     }
                     PropertyChanges {
                         target: username
@@ -393,8 +393,8 @@ Column {
             background: Rectangle {
                 color: config.PasswordFieldBackgroundColor
                 opacity: 1
-                border.color: "transparent"
-                border.width: parent.activeFocus ? 2 : 1
+                border.color: "black"
+                border.width: 2
                 radius: config.RoundCorners || 0
             }
             onAccepted: triggerLogin()
@@ -407,7 +407,7 @@ Column {
                 when: password.activeFocus
                 PropertyChanges {
                     target: password.background
-                    border.color: config.HighlightBorderColor
+                    border.color: "black"
                 }
                 PropertyChanges {
                     target: password

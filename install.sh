@@ -32,8 +32,6 @@ hr
 [[ ! -f "$SCRIPT_DIR/Main.qml" ]] && \
     fatal "Run this script from inside the sddm-babu-theme folder."
 
-[[ ! -f "$SCRIPT_DIR/Backgrounds/BABU.mp4" ]] && \
-    fatal "Backgrounds/BABU.mp4 is missing from the theme folder."
 
 if ! command -v sudo >/dev/null 2>&1; then
     fatal "sudo is not installed. Install and configure sudo first."
@@ -51,6 +49,61 @@ done
 
 info "Preflight passed"
 
+# ── background video selection ────────────────────────────────
+hr
+printf '\033[1;36m  Choose your background video:\033[0m\n'
+hr
+printf '  1) Varanasi        (BABU.mp4)\n'
+printf '  2) Loki             (loki.mp4)\n'
+printf '  3) Moon Knight      (Moon Knight.mp4)\n'
+printf '  4) Salaar           (Salaar.mp4)\n'
+printf '  5) Custom path      (enter your own video file path)\n'
+printf '\n'
+
+while true; do
+    read -rp $'  Your choice [1-5]: ' VIDEO_CHOICE
+    case "$VIDEO_CHOICE" in
+        1)
+            SRC="$SCRIPT_DIR/Backgrounds/BABU.mp4"
+            VIDEO_LABEL="Varanasi"
+            break
+            ;;
+        2)
+            SRC="$SCRIPT_DIR/Backgrounds/loki.mp4"
+            VIDEO_LABEL="Loki"
+            break
+            ;;
+        3)
+            SRC="$SCRIPT_DIR/Backgrounds/Moon Knight.mp4"
+            VIDEO_LABEL="Moon Knight"
+            break
+            ;;
+        4)
+            SRC="$SCRIPT_DIR/Backgrounds/Salaar.mp4"
+            VIDEO_LABEL="Salaar"
+            break
+            ;;
+        5)
+            read -rp $'  Enter full path to your video file: ' CUSTOM_PATH
+            # Expand ~ manually
+            CUSTOM_PATH="${CUSTOM_PATH/#\~/$HOME}"
+            if [[ ! -f "$CUSTOM_PATH" ]]; then
+                printf '  \033[1;31m  ✘  File not found: %s\033[0m\n' "$CUSTOM_PATH"
+                continue
+            fi
+            SRC="$CUSTOM_PATH"
+            VIDEO_LABEL="Custom ($(basename "$CUSTOM_PATH"))"
+            break
+            ;;
+        *)
+            printf '  Please enter a number between 1 and 5.\n'
+            ;;
+    esac
+done
+
+info "Selected background: $VIDEO_LABEL → $SRC"
+hr
+
 # ── video preparation ─────────────────────────────────────────
 #
 # Strategy:
@@ -62,8 +115,6 @@ info "Preflight passed"
 #
 TMPDIR_VIDEO=$(mktemp -d)
 trap 'rm -rf -- "$TMPDIR_VIDEO"' EXIT
-
-SRC="$SCRIPT_DIR/Backgrounds/BABU.mp4"
 CLIP="$TMPDIR_VIDEO/clip.mp4"
 FINAL="$TMPDIR_VIDEO/BABU.mp4"
 

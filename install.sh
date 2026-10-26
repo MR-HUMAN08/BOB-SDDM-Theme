@@ -224,7 +224,7 @@ fi
 sudo install -d -m 755 "$DEST"
 sudo cp -a -- "$SCRIPT_DIR"/. "$DEST"/
 # remove installer and readme from the installed copy (not needed in /usr/share)
-sudo rm -rf -- "$DEST/install.sh" "$DEST/README.md" "$DEST/test-logs"
+sudo rm -rf -- "$DEST/install.sh" "$DEST/setup.sh" "$DEST/uninstall.sh" "$DEST/README.md" "$DEST/test-logs"
 sudo find "$DEST" -type d -exec chmod 755 {} +
 sudo find "$DEST" -type f -exec chmod 644 {} +
 # Replace BABU.mp4 in the installed copy with the looped version

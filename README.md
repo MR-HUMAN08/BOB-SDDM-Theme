@@ -61,23 +61,35 @@ sudo zypper install sddm-qt6 libQt6Svg6 qt6-virtualkeyboard qt6-virtualkeyboard-
 
 ---
 
-## 🚀 Install — one command
+## 🚀 Automatic Installation
 
 ```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/MR-HUMAN08/BOB-SDDM-Theme/main/setup.sh)"
+```
+
+> Works on distributions using **pacman**, **apt**, **dnf**, **zypper**, **xbps-install**.  
+> Remember to always read the scripts you run from the internet.
+
+The setup script will automatically:
+
+1. Detect your package manager and install all dependencies
+2. Clone the repository to `~/BOB-SDDM-Theme`
+3. Run the theme installer (video selection, encoding, file copy)
+4. Configure SDDM and enable it for next boot
+
+### Manual Installation
+
+If you prefer to install manually:
+
+```bash
+git clone https://github.com/MR-HUMAN08/BOB-SDDM-Theme.git
+cd BOB-SDDM-Theme
 bash install.sh
 ```
 
-That's it. The script will:
+> **Note:** Do **not** run as root. The scripts use `sudo` internally and will ask for your password once.
 
-1. Copy the theme to `/usr/share/sddm/themes/sddm-babu-theme/`
-2. Install the **ArcadeClassic** font system-wide
-3. Set `Current=sddm-babu-theme` in `/etc/sddm.conf` (backs up the old config first)
-4. Write `/etc/sddm.conf.d/virtualkbd.conf` for the virtual keyboard
-5. Enable SDDM for the next boot (without starting or restarting anything now)
-
-> **Note:** Do **not** run as root. The script uses `sudo` internally and will ask for your password once.
-
-After the script finishes, **reboot** to see your new login screen.
+After installation, **reboot** to see your new login screen.
 
 ---
 
@@ -91,20 +103,25 @@ sddm-greeter-qt6 --test-mode --theme /usr/share/sddm/themes/sddm-babu-theme/
 
 ---
 
-## 🔙 Uninstall / Rollback
+## 🔙 Uninstall
 
-**Restore your previous SDDM theme:**
 ```bash
-# The installer prints the backup path — use it here:
-sudo cp /etc/sddm.conf.bak.<timestamp> /etc/sddm.conf
+bash uninstall.sh
 ```
 
-**Remove the theme files:**
+Or if you installed via the automatic one-liner:
+
 ```bash
-sudo rm -rf /usr/share/sddm/themes/sddm-babu-theme
-sudo rm -rf /usr/share/fonts/sddm-babu-theme
-sudo fc-cache -f
+bash ~/BOB-SDDM-Theme/uninstall.sh
 ```
+
+The uninstall script will:
+
+1. Remove theme files from `/usr/share/sddm/themes/sddm-babu-theme/`
+2. Remove the ArcadeClassic font
+3. Remove drop-in configs (virtual keyboard, video decoder)
+4. Restore your previous SDDM config from backup, or reset to OS default
+5. Optionally clean up backup files
 
 ---
 
@@ -123,6 +140,8 @@ sddm-babu-theme/
 ├── Main.qml              Main QML entry point
 ├── metadata.desktop      SDDM theme descriptor
 ├── install.sh            ← run this to install
+├── setup.sh              ← automatic one-liner installer
+├── uninstall.sh          ← run this to uninstall
 ├── NOTICE.txt            GPL attribution
 └── LICENSE               GPL-3.0-or-later
 ```

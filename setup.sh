@@ -75,9 +75,16 @@ case "$PKG_MGR" in
             qml6-module-qtmultimedia ffmpeg fontconfig libxcb-cursor0 git
         ;;
     dnf)
+        # ffmpeg (RPMFusion) conflicts with ffmpeg-free (Fedora).
+        # If the user already has ffmpeg, skip installing ffmpeg-free.
+        FFMPEG_PKG="ffmpeg-free"
+        if rpm -q ffmpeg &>/dev/null; then
+            info "ffmpeg (RPMFusion) already installed — skipping ffmpeg-free"
+            FFMPEG_PKG=""
+        fi
         sudo dnf install -y \
             sddm qt6-qtsvg qt6-qtvirtualkeyboard qt6-qtmultimedia \
-            ffmpeg-free fontconfig git
+            $FFMPEG_PKG fontconfig git
         ;;
     zypper)
         sudo zypper install -y \
